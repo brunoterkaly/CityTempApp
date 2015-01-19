@@ -19,5 +19,5 @@ The node.JS backend is getting data from documentdb.
 
 This is a simple Windows phone application. To build it, start Visual Studio and chose File/New Project/Windows Phone Blank Application.
 
-- Use NuGet To choose/add newtonsoft.Json
-- Open MainPage.xaml.cs and add teh code as seen here.
+- Use NuGet To choose/add **newtonsoft.Json**
+- Open MainPage.xaml.cs and add teh code as seen in this repo.
