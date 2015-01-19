@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WinRTXamlToolkit.Controls.DataVisualization.Charting;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -29,6 +31,8 @@ namespace CityTempApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Random _random = new Random();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -54,8 +58,11 @@ namespace CityTempApp
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8124");
             request.BeginGetResponse(MyCallBack, request);
+
+
+
         }
-        void MyCallBack(IAsyncResult result)
+        async void MyCallBack(IAsyncResult result)
         {
             HttpWebRequest request = result.AsyncState as HttpWebRequest;
             if (request != null)
@@ -64,7 +71,22 @@ namespace CityTempApp
                 {
                     WebResponse response = request.EndGetResponse(result);
                     Stream stream = response.GetResponseStream();
-                    var results = DeserializeFromStream(stream);
+                    StreamReader reader = new StreamReader(stream);
+                    JsonSerializer serializer = new JsonSerializer();
+                    List<CityTemp> cityTemp = (List<CityTemp>)serializer.Deserialize(reader, typeof(List<CityTemp>));
+                    List<NameValueItem> items = new List<NameValueItem>();
+                    string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+                    for (int i = 11; i >= 0; i-- )
+                    {
+                       items.Add(new NameValueItem { Name = months[i], Value = cityTemp[0].Temperatures[i] });
+                    }
+                    
+                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        this.BarChart.Title = cityTemp[0].City + ", 2014";
+                        ((BarSeries)this.BarChart.Series[0]).ItemsSource = items;
+                    }); 
+
 
                 }
                 catch (WebException e)
@@ -73,16 +95,16 @@ namespace CityTempApp
                 }
             }
         }
-        public object DeserializeFromStream(Stream stream)
-        {
-            var serializer = new JsonSerializer();
 
-            using (var sr = new StreamReader(stream))
-            using (var jsonTextReader = new JsonTextReader(sr))
-            {
-                return serializer.Deserialize(jsonTextReader);
-            }
-        }
-
+    }
+    public class CityTemp
+    {
+        public string City { get; set;  }
+        public List<double> Temperatures { get; set; }
+    }
+    public class NameValueItem
+    {
+        public string Name { get; set; }
+        public double Value { get; set; }
     }
 }

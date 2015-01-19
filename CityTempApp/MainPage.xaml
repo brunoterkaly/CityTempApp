@@ -6,9 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+           <charting:Chart
+                x:Name="BarChart"
+                Title=""
+                Margin="5,0">
+                <charting:BarSeries
+                    Title="Rain (in)"
+                    IndependentValueBinding="{Binding Name}"
+                    DependentValueBinding="{Binding Value}"
+                    IsSelectionEnabled="True"/>
+            </charting:Chart>
 
     </Grid>
 </Page>
