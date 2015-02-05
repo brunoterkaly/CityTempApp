@@ -1,7 +1,7 @@
 <XamlCompilerSaveState>
   <ReferenceAssemblyList>
-    <ReferenceAssembly PathName="c:\msdn\citytempapp\packages\newtonsoft.json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\newtonsoft.json.dll" HashGuid="225745d8-3693-ad6f-ebd5-8845d81f8e0f" />
-    <ReferenceAssembly PathName="c:\msdn\citytempapp\packages\winrtxamltoolkit.controls.datavisualization.windowsphone.1.8.1.0\lib\wpa\winrtxamltoolkit.controls.datavisualization.dll" HashGuid="9b581ce9-a3d5-c68e-4833-5c7b7f7772c7" />
-    <ReferenceAssembly PathName="c:\msdn\citytempapp\packages\winrtxamltoolkit.windowsphone.1.8.1.0\lib\wpa\winrtxamltoolkit.dll" HashGuid="221e17c6-64f2-d53e-b7b5-145a2dbe921c" />
+    <ReferenceAssembly PathName="c:\temp\phoneapp\packages\newtonsoft.json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\newtonsoft.json.dll" HashGuid="225745d8-3693-ad6f-ebd5-8845d81f8e0f" />
+    <ReferenceAssembly PathName="c:\temp\phoneapp\packages\winrtxamltoolkit.controls.datavisualization.windowsphone.1.8.1.0\lib\wpa\winrtxamltoolkit.controls.datavisualization.dll" HashGuid="9b581ce9-a3d5-c68e-4833-5c7b7f7772c7" />
+    <ReferenceAssembly PathName="c:\temp\phoneapp\packages\winrtxamltoolkit.windowsphone.1.8.1.0\lib\wpa\winrtxamltoolkit.dll" HashGuid="221e17c6-64f2-d53e-b7b5-145a2dbe921c" />
   </ReferenceAssemblyList>
 </XamlCompilerSaveState>

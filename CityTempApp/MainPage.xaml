@@ -16,11 +16,13 @@
                 Title=""
                 Margin="5,0">
                 <charting:BarSeries
-                    Title="Rain (in)"
+                    Title="Temp"
                     IndependentValueBinding="{Binding Name}"
                     DependentValueBinding="{Binding Value}"
                     IsSelectionEnabled="True"/>
             </charting:Chart>
+        <Button Content="Update" HorizontalAlignment="Left" Margin="138,515,0,0" VerticalAlignment="Top" Height="55" Width="160" Click="Button_Click"/>
+
 
     </Grid>
 </Page>

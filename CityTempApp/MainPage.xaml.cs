@@ -56,14 +56,28 @@ namespace CityTempApp
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:8124");
-            request.BeginGetResponse(MyCallBack, request);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:47581/api/values");
+            //while (true)
+            //{
+               //request.BeginGetResponse(MyCallBack, request);
+               //Task.Delay(TimeSpan.FromSeconds(3));
+                
+            //}
+            //while (true)
+            //{
+                //using (EventWaitHandle tmpEvent = new ManualResetEvent(false))
+                //{
+                    request.BeginGetResponse(MyCallBack, request);
+                    //tmpEvent.WaitOne(TimeSpan.FromSeconds(3));
+                //}
+            //}
 
 
 
         }
         async void MyCallBack(IAsyncResult result)
         {
+
             HttpWebRequest request = result.AsyncState as HttpWebRequest;
             if (request != null)
             {
@@ -73,17 +87,18 @@ namespace CityTempApp
                     Stream stream = response.GetResponseStream();
                     StreamReader reader = new StreamReader(stream);
                     JsonSerializer serializer = new JsonSerializer();
-                    List<CityTemp> cityTemp = (List<CityTemp>)serializer.Deserialize(reader, typeof(List<CityTemp>));
+                    List<TimeTemp> cityTemp = (List<TimeTemp>)serializer.Deserialize(reader, typeof(List<TimeTemp>));
                     List<NameValueItem> items = new List<NameValueItem>();
-                    string[] months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-                    for (int i = 11; i >= 0; i-- )
+                    for (int i = 0; i < cityTemp.Count; i++)
                     {
-                       items.Add(new NameValueItem { Name = months[i], Value = cityTemp[0].Temperatures[i] });
+                       items.Add(new NameValueItem { Name = cityTemp[i].time.ToString(), 
+                            Value = Convert.ToDouble(cityTemp[i].temperature) });
                     }
                     
                     await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        this.BarChart.Title = cityTemp[0].City + ", 2014";
+                        this.BarChart.Title = "Temperatures";
+                        ((BarSeries)this.BarChart.Series[0]).ItemsSource = null;
                         ((BarSeries)this.BarChart.Series[0]).ItemsSource = items;
                     }); 
 
@@ -96,12 +111,20 @@ namespace CityTempApp
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:47581/api/values");
+            request.BeginGetResponse(MyCallBack, request);
+
+        }
+
     }
-    public class CityTemp
+    public class TimeTemp
     {
-        public string City { get; set;  }
-        public List<double> Temperatures { get; set; }
+        public string time { get; set; }
+        public string temperature { get; set; }
     }
+
     public class NameValueItem
     {
         public string Name { get; set; }
